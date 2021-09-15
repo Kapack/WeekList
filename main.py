@@ -35,7 +35,7 @@ class Main:
 		
 		# Create Main File
 		fieldnames = ['supplier_sku', 'ean', 'sku', 'name', 'price', 'qty', 'description', 'image', 'small_image', 'thumbnail', 'visibility', 'attribute_set_code', 'product_type', 'product_websites', 'weight', 'product_online', 'news_from_date', 'options_container', 'stock_is_in_stock']
-		rows = {'supplier_sku' : '', 'ean': '', 'sku': '', 'price': '', 'qty': '',  'description' : '', 'image' : '', 'small_image': '', 'thumbnail': '', 'visibility' : 'Catalog, Search', 'attribute_set_code': 'Migration_Default', 'product_type' : 'simple', 'product_websites' : 'base,se,dk,no,fi,nl,be,uk,ie,de,ch,at', 'weight': '1', 'product_online': '1', 'news_from_date': 'MM/DD/YY', 'options_container': 'Block after Info Column', 'stock_is_in_stock' : 'Yes'}
+		rows = {'supplier_sku' : '', 'ean': '', 'sku': '', 'price': '', 'qty': '',  'description' : '', 'image' : '', 'small_image': '', 'thumbnail': '', 'visibility' : 'Catalog, Search', 'attribute_set_code': 'Migration_Default', 'product_type' : 'simple', 'product_websites' : 'base,se,dk,no,fi,nl,be,uk,ie,de,ch,at', 'weight': '1', 'product_online': '1', 'news_from_date': 'MM/DD/YY', 'options_container': 'Block after Info Column', 'stock_is_in_stock' : '=IF(F2=0;"No";"Yes")'}
 		createCsv = CreateCsv(path, '1-OnlyAdd-Upload-' + weekNumber + '-admin.csv', fieldnames, rows)
 
 		# Create Attributes file
@@ -46,15 +46,15 @@ class Main:
 		# Create Category and Location file
 		fieldnames = ['sku', 'categories', 'location', 'product_type']
 		rows = {'sku': '', 'categories': '', 'location':'', 'product_type': 'simple'}
-		createCsv = CreateCsv(path, 'Upload-' + weekNumber + '-admin-attributes.csv', fieldnames, rows)
+		createCsv = CreateCsv(path, 'Upload-' + weekNumber + '-admin-cat_loc.csv', fieldnames, rows)
 
 	# Images
 	def imgFolder(self, weekNumber):
 		createFolder = CreateFolder(weekNumber + '/IMG')
 		path = createFolder.folder()
 		# Creates additional image file
-		fieldnames = ['sku', 'additional_images', 'label', 'position', 'disabled']
-		rows = {'sku' : 'LCP-01-24-A0001', 'additional_images': 'LCP-01-24-A0001-A.jpg', 'label': '', 'position': '', 'disabled': '0'}
+		fieldnames = ['sku', 'additional_images', 'label', 'position', 'disabled', 'product_type']
+		rows = {'sku' : 'LCP-01-24-A0001', 'additional_images': 'LCP-01-24-A0001-A.jpg', 'label': '', 'position': '', 'disabled': '0', 'product_type' : 'simple'}
 		createCsv = CreateCsv(path, 'Upload-' + weekNumber + '-admin-attributes.csv', fieldnames, rows)
 
 	# Prices
@@ -63,7 +63,7 @@ class Main:
 		path = createFolder.folder()
 		# Create prices files
 		fieldnames = ['sku', 'price', 'store_view_code', 'product_websites', 'product_type']
-		rows = {'sku' : 'SKU', 'price': '99', 'store_view_code': 'dk, se, no', 'product_websites': 'dk, se, no', 'product_type': 'simple' }
+		rows = {'sku' : 'SKU', 'price': '99', 'store_view_code': 'dk, se, no', 'product_websites': 'dk, se, no', 'product_type': 'simple'}
 		createCsv = CreateCsv(path, 'Upload-' + weekNumber + '-CO-prices.csv', fieldnames, rows)
 
 	# Languages
@@ -71,8 +71,8 @@ class Main:
 		createFolder = CreateFolder(weekNumber + '/Translate')
 		path = createFolder.folder()
 		#
-		fieldnames = ['sku', 'name', 'description', 'url_key', 'store_view_code', 'product_websites']
-		rows = {'sku': '', 'name': '', 'description': '', 'url_key':'', 'store_view_code': 'se,dk,no,fi,nl,be,uk,ie,de,ch,at', 'product_websites': 'se,dk,no,fi,nl,be,uk,ie,de,ch,at'}
+		fieldnames = ['sku', 'name', 'description', 'url_key', 'store_view_code', 'product_websites', 'product_type']
+		rows = {'sku': '', 'name': '', 'description': '', 'url_key':'', 'store_view_code': 'se,dk,no,fi,nl,be,uk,ie,de,ch,at', 'product_websites': 'se,dk,no,fi,nl,be,uk,ie,de,ch,at', 'product_type': 'simple'}
 		createCsv = CreateCsv(path, 'Upload-' + weekNumber + '-CO-content.csv', fieldnames, rows)
 
 	# TVC Folder
