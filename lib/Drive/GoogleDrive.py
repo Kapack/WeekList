@@ -11,11 +11,10 @@ from googleapiclient.http import MediaIoBaseDownload
 
 # os
 import os.path
+import webbrowser
 
 class GoogleDrive:
-	def __init__(self, weekNumber, file_id):
-		self.weekNumber = weekNumber
-		self.file_id = file_id
+	def __init__(self):
 		self.SCOPES = ['https://www.googleapis.com/auth/drive']
 
 	def token(self):
@@ -49,9 +48,7 @@ class GoogleDrive:
 			return service
 
 
-	def downloadFile(self, serviceToken):				
-		file_id = self.file_id
-		weekNumber = self.weekNumber
+	def downloadFile(self, serviceToken, weekNumber, file_id):				
 		path = os.getcwd() + '/' + weekNumber + '/'
 		# Getting metaData
 		metaData = serviceToken.files().get(fileId=file_id).execute()
@@ -63,11 +60,15 @@ class GoogleDrive:
 		done = False
 		while done is False:
 			status, done = downloader.next_chunk()
-			print("Download %d%%." % int(status.progress() * 100))
+			print("Download List from Drive %d%%." % int(status.progress() * 100))
 			
 			# Returns the filename
 			return fileName
 
+	def openChecklistFolder(self):
+		# Open in Browser
+		url = 'https://drive.google.com/drive/folders/0B5Y507CtwfIwMWNTN21QZkpwMFk?resourcekey=0-AT_5j3otEM_Z30kH5mBcZw'
+		webbrowser.open(url, new=0)
 		
 		
 		
