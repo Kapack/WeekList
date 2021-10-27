@@ -10,6 +10,7 @@ import io
 from googleapiclient.http import MediaIoBaseDownload
 
 # os
+from definitions import ROOT_DIR
 import os.path
 import webbrowser
 
@@ -19,8 +20,9 @@ class GoogleDrive:
 
 	def token(self):
 		# Root path
-		path = os.getcwd() + '/lib/Drive/auth/'
+		path = ROOT_DIR + '/lib/Drive/auth/'
 		creds = None
+		
 
 		# The file token.json stores the user's access and refresh tokens, and is
 		# created automatically when the authorization flow completes for the first
@@ -49,7 +51,11 @@ class GoogleDrive:
 
 
 	def downloadFile(self, serviceToken, weekNumber, file_id):				
-		path = os.getcwd() + '/' + weekNumber + '/'
+		# Create path if not exists
+		path = ROOT_DIR + '/' + weekNumber + '/'		
+		if not os.path.exists(path):
+			os.makedirs(path)
+
 		# Getting metaData
 		metaData = serviceToken.files().get(fileId=file_id).execute()
 		fileName = metaData['name']
@@ -63,12 +69,9 @@ class GoogleDrive:
 			print("Download List from Drive %d%%." % int(status.progress() * 100))
 			
 			# Returns the filename
-			return fileName
-
+			return fileName	
+	
 	def openChecklistFolder(self):
 		# Open in Browser
 		url = 'https://drive.google.com/drive/folders/0B5Y507CtwfIwMWNTN21QZkpwMFk?resourcekey=0-AT_5j3otEM_Z30kH5mBcZw'
-		webbrowser.open(url, new=0)
-		
-		
-		
+		webbrowser.open(url, new=0)	

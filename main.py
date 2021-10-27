@@ -1,39 +1,63 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3.0
 from lib.CreateNewFolder.CreateNewFolder import CreateNewFolder
 from lib.PrepareForEAN.PrepareForEAN import PrepareForEAN
-from lib.Wepack.Wepack import Wepack
+from lib.Wepack.CreateChecklist import CreateChecklist
+from lib.Wepack.UpdateLocationQty import UpdateLocationQty
+from lib.Shared import Shared
+#
+from subprocess import call
+from definitions import WEEKLIST_DIR
 
 class Main:
 	def __init__(self):
 		whatToDo = self.whatToDo()
-		# whatToDo = 2
 
 		# Which method to run depending on 
-		if whatToDo == 1:
+		if whatToDo == '1':
 			self.createTheFolder()
 		
-		elif whatToDo == 2:
+		elif whatToDo == '2':
 			self.prepareForEAN()
 		
-		elif whatToDo == 3:
+		elif whatToDo == '3':
 			self.createChecklistToWePack()
+		
+		elif whatToDo == '4':
+			self.updateLocationAndQty()
+		
+		elif whatToDo == '9':
+			self.openWeekListFolder()
 
 		else:
 			print('Your choice is not valid')
-
+	# 0
 	def whatToDo(self):
-		userInput = input('What do you want to do? \n 1: Create a new Folder? \n 2: Prepare for EAN and upload TVC-list to Drive? \n 3: Update Stock and send to Pavo and Friends? \n')
+		userInput = input('What do you want to do? \n 1: Create a new Folder? (SKU\'s is done.) \n 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC) \n 3: Update Stock and send to Pavo and Friends? (List is back from TVC) \n 4: Update location and QTY (List is back from WePack) \n 9: Open a Week Folder? \n')
 		return userInput
 
-	def createTheFolder(self):
-		CreateNewFolder()
-	
+	# 1: Create a new Folder? (SKU\'s is done.)
+	def createTheFolder(self):		
+		CreateNewFolder(week=True, tvc=True, file_id=True)
+
+	# 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC)
 	def prepareForEAN(self):
-		PrepareForEAN()
+		PrepareForEAN(week=True, tvc=True)
 	
+	# 3: Update Stock and send to Pavo and Friends? (List is back from TVC)
 	def createChecklistToWePack(self):
-		wepack = Wepack()
-		wepack.createChecklist()
+		CreateChecklist(week=True, tvc=True, file_id=True)
+
+	# 4: Update location and QTY (List is back from WePack)
+	def updateLocationAndQty(self):		
+		UpdateLocationQty(week=True, tvc=False, file_id=True)
+
+	# 9: Open a Week Folder?
+	def openWeekListFolder(self):
+		shared = Shared()
+		userInput = shared.userInput(week=True)
+		weekNumber = userInput[0]        		
+		targetDirectory = WEEKLIST_DIR + weekNumber				
+		call(["open", targetDirectory])
 	
 if __name__ == '__main__':
 	Main()

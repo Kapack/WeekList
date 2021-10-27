@@ -3,18 +3,19 @@ from subprocess import call
 
 from lib.Drive.GoogleDrive import GoogleDrive
 from lib.Shared import Shared
+from definitions import WEEKLIST_DIR
 
 class PrepareForEAN:
-    def __init__(self):
+    def __init__(self, week:bool, tvc:bool):
         self.openCM()
-        userInput = self.userInput()                
+        userInput = self.userInput(week, tvc)                
         self.openEANSheet()
         self.openGoogleDrive()        
         self.openLocalTVCFile(userInput)
     
-    def userInput(self):        
+    def userInput(self, week:bool, tvc:bool):
         shared = Shared()
-        userInput = shared.userInput()        
+        userInput = shared.userInput(week, tvc)
         return userInput
     
     # Open in CM in Browser
@@ -36,5 +37,5 @@ class PrepareForEAN:
     def openLocalTVCFile(self, userInput):                
         weekNumber = userInput[0]
         tvcNo = userInput[1]        
-        targetDirectory = "/Users/marketing/Documents/Lux-Case/Import Products/Week Lists/" + weekNumber + '/TVC/' + weekNumber + '-' + tvcNo + '-TVC.xls'
+        targetDirectory = WEEKLIST_DIR + weekNumber + '/TVC/' + weekNumber + '-' + tvcNo + '-TVC.xls'
         call(["open", targetDirectory])
