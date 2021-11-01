@@ -2,7 +2,7 @@ from subprocess import call
 
 from lib.Shared import Shared
 from lib.Drive.GoogleDrive import GoogleDrive
-from definitions import WEEKLIST_DIR
+from config.definitions import WEEKLIST_DIR
 
 class CreateChecklist:
     def __init__(self, week:bool, tvc:bool, file_id:bool):        

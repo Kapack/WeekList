@@ -1,5 +1,5 @@
 import os
-from definitions import ROOT_DIR
+from config.definitions import ROOT_DIR
 
 class CreateFolder:
 	def __init__(self, path):

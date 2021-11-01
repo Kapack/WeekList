@@ -1,11 +1,11 @@
-from WeekList.definitions import ROOT_DIR
+# from WeekList.definitions import ROOT_DIR
 from lib.CreateNewFolder.CreateFolder import CreateFolder
 from lib.Drive.GoogleDrive import GoogleDrive
 from lib.CreateNewFolder.CreateCsv import CreateCsv
 from lib.CreateNewFolder.CreateXls import CreateXls
 from lib.CreateNewFolder.ReadXls import ReadXls
 from lib.Shared import Shared
-from definitions import ROOT_DIR, WEEKLIST_DIR
+from config.definitions import ROOT_DIR, WEEKLIST_DIR
 #
 # import os
 import shutil

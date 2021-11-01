@@ -1,6 +1,6 @@
 from lib.Shared import Shared
 from lib.Drive.GoogleDrive import GoogleDrive
-from definitions import WEEKLIST_DIR
+from config.definitions import WEEKLIST_DIR
 
 from subprocess import call
 

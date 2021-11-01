@@ -1,5 +1,5 @@
 from lib.Drive.GoogleDrive import GoogleDrive
-from definitions import ROOT_DIR, WEEKLIST_DIR
+from config.definitions import ROOT_DIR, WEEKLIST_DIR
 
 import webbrowser
 import os

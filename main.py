@@ -6,7 +6,7 @@ from lib.Wepack.UpdateLocationQty import UpdateLocationQty
 from lib.Shared import Shared
 #
 from subprocess import call
-from definitions import WEEKLIST_DIR
+from config.definitions import WEEKLIST_DIR
 
 class Main:
 	def __init__(self):
@@ -36,16 +36,19 @@ class Main:
 		return userInput
 
 	# 1: Create a new Folder? (SKU\'s is done.)
-	def createTheFolder(self):		
+	def createTheFolder(self):				
 		CreateNewFolder(week=True, tvc=True, file_id=True)
+		print('Done. Now you\'re ready to prepare for TVC (Step 2).')
 
 	# 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC)
 	def prepareForEAN(self):
 		PrepareForEAN(week=True, tvc=True)
+		print('Done. You can now upload the TVC file to Drive')
 	
 	# 3: Update Stock and send to Pavo and Friends? (List is back from TVC)
 	def createChecklistToWePack(self):
 		CreateChecklist(week=True, tvc=True, file_id=True)
+		print('Take info from the newly downloaded original file. Update stock from the mail sent by TVC')
 
 	# 4: Update location and QTY (List is back from WePack)
 	def updateLocationAndQty(self):		

@@ -3,7 +3,7 @@ from subprocess import call
 
 from lib.Drive.GoogleDrive import GoogleDrive
 from lib.Shared import Shared
-from definitions import WEEKLIST_DIR
+from config.definitions import WEEKLIST_DIR
 
 class PrepareForEAN:
     def __init__(self, week:bool, tvc:bool):
