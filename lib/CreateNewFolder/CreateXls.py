@@ -8,12 +8,11 @@ class CreateXls:
 		# Calling the saveFile method
 		self.saveFile()
 
-
-	def saveFile(self):
+	def saveFile(self):		
 		path = self.path
 		fieldnames = self.fieldnames
 		columns = self.columns
-
+		
 		# Creating our work book 
 		woorkbook = xlwt.Workbook()
 		sheet = woorkbook.add_sheet('Sheet1')
@@ -25,9 +24,11 @@ class CreateXls:
 			for field in columns:				
 				# Write fieldname / header
 				sheet.write(0, i, field)
-
+						
 				# Remove first field from columns so we don't have two headers
-				columns[field].pop(0)				
+				if type(columns[field]) == list:
+					columns[field].pop(0)				
+					
 				# Write cells values
 				ii = 1
 				for col in range(len(columns[field])):

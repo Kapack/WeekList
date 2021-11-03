@@ -10,8 +10,7 @@ from config.definitions import WEEKLIST_DIR
 
 class Main:
 	def __init__(self):
-		whatToDo = self.whatToDo()
-
+		whatToDo = self.whatToDo()		
 		# Which method to run depending on 
 		if whatToDo == '1':
 			self.createTheFolder()

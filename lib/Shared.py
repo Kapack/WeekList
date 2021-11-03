@@ -21,9 +21,13 @@ class Shared:
             userInput.append(str(file_id))
 
         # TESTING FILES    
-        # userInput[0] = '302'        
+        # userInput.append('002')        
+        # userInput.append('E21050300001')
+        # userInput.append('1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO')
+
+        # userInput[0] = '002'        
         # userInput[1] = 'E21050300001'
-        # userInput[1] = '1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO'
+        # userInput[2] = '1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO'
         return userInput        
 
     def openCM(self):

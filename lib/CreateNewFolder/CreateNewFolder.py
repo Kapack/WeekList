@@ -16,15 +16,17 @@ class CreateNewFolder:
         userInput = self.userInput(week, tvc, file_id)
         weekNumber = userInput[0]        
         tvcNo = userInput[1]
-        file_id = userInput[2]
-        
+        file_id = userInput[2]                
+
         self.parentFolder(weekNumber)
-        orgFilename = self.googleDrive(weekNumber, file_id)
+        orgFilePath = self.googleDrive(weekNumber, file_id)        
+        # orgFilePath = ROOT_DIR + '/' + weekNumber + '/302-LIST-V06.xls'
         self.adminFolder(weekNumber)
+        self.createAdminFile(weekNumber, orgFilePath) # Shopify
         self.imgFolder(weekNumber)
         self.pricesFolder(weekNumber)
         self.localizationFolder(weekNumber)        
-        self.tvcFolder(weekNumber, orgFilename, tvcNo)
+        self.tvcFolder(weekNumber, orgFilePath, tvcNo)
         self.wePackFolder(weekNumber, tvcNo)
         self.moveParentFolder(weekNumber)
         self.openFolder(weekNumber)
@@ -41,34 +43,66 @@ class CreateNewFolder:
         createFolder.folder()
     
     # Download WeekList from Google Drive
-    def googleDrive(self, weekNumber, file_id):
+    def googleDrive(self, weekNumber, file_id) -> str:
         googleDrive = GoogleDrive()
         # Creates token so our user can access/use Google APIs
         serviceToken = googleDrive.token()
         # Download the file
         orgFile = googleDrive.downloadFile(serviceToken, weekNumber, file_id)
-        return orgFile
+        #        
+        filepath = ROOT_DIR + '/' + weekNumber + '/' + orgFile        
+        return filepath
 
     # Admin
     def adminFolder(self, weekNumber):
         print('Creates Admin folder...')
         createFolder = CreateFolder(weekNumber + '/Admin')
         path = createFolder.folder()
+        filename = weekNumber + '-Admin-Upload.xls'
 
-        # Create Main File
-        fieldnames = ['supplier_sku', 'ean', 'sku', 'name', 'price', 'qty', 'description', 'image', 'small_image', 'thumbnail', 'visibility', 'attribute_set_code', 'product_type', 'product_websites', 'weight', 'product_online', 'news_from_date', 'options_container', 'stock_is_in_stock']
-        rows = {'supplier_sku' : '', 'ean': '', 'sku': '', 'price': '', 'qty': '',  'description' : '', 'image' : '', 'small_image': '', 'thumbnail': '', 'visibility' : 'Catalog, Search', 'attribute_set_code': 'Migration_Default', 'product_type' : 'simple', 'product_websites' : 'base,se,dk,no,fi,nl,be,uk,ie,de,ch,at', 'weight': '1', 'product_online': '1', 'news_from_date': 'MM/DD/YY', 'options_container': 'Block after Info Column', 'stock_is_in_stock' : '=IF(F2=0;"No";"Yes")'}
-        CreateCsv(path, '1-OnlyAdd-Upload-' + weekNumber + '-admin.csv', fieldnames, rows)
+        # Create Main File (Shopify version)
+        fieldnames = ['SKU', 'Supplier', 'Supplier SKU', 'EAN_new',	'Name (en-GB)', 'Price (en-GB)', 'Final Price (en-GB)', 'Price (de-DE)', 'Final Price (de-DE)', 'Price (nl-NL)', 'Final Price (nl-NL)', 'Price (fi-FI)', 'Final Price (fi-FI)', 'Price (da-DK)', 'Final Price (da-DK)', 'Price (nb-NO)', 'Final Price (nb-NO)', 'Price (sv-SE)', 'Final Price (sv-SE)', 'Description (en-GB)', 'Image', 'Model', 'List', 'Gallery']
+        # Creates the excel file
+        CreateXls(path + filename, fieldnames)        
+        
+        # # Magento
+        # fieldnames = ['supplier_sku', 'ean', 'sku', 'name', 'price', 'qty', 'description', 'image', 'small_image', 'thumbnail', 'visibility', 'attribute_set_code', 'product_type', 'product_websites', 'weight', 'product_online', 'news_from_date', 'options_container', 'stock_is_in_stock']
+        # rows = {'supplier_sku' : '', 'ean': '', 'sku': '', 'price': '', 'qty': '',  'description' : '', 'image' : '', 'small_image': '', 'thumbnail': '', 'visibility' : 'Catalog, Search', 'attribute_set_code': 'Migration_Default', 'product_type' : 'simple', 'product_websites' : 'base,se,dk,no,fi,nl,be,uk,ie,de,ch,at', 'weight': '1', 'product_online': '1', 'news_from_date': 'MM/DD/YY', 'options_container': 'Block after Info Column', 'stock_is_in_stock' : '=IF(F2=0;"No";"Yes")'}
+        # CreateCsv(path, '1-OnlyAdd-Upload-' + weekNumber + '-admin.csv', fieldnames, rows)
 
-        # Create Attributes file
-        fieldnames = ['sku', 'manufacturer', 'model', 'color', 'product_type']
-        rows = {'sku' : '', 'manufacturer' : '', 'model': '', 'color': '', 'product_type': 'simple'}
-        CreateCsv(path, 'Upload-' + weekNumber + '-admin-attributes.csv', fieldnames, rows)
+        # # Create Attributes file
+        # fieldnames = ['sku', 'manufacturer', 'model', 'color', 'product_type']
+        # rows = {'sku' : '', 'manufacturer' : '', 'model': '', 'color': '', 'product_type': 'simple'}
+        # CreateCsv(path, 'Upload-' + weekNumber + '-admin-attributes.csv', fieldnames, rows)
 
-        # Create Category and Location file
-        fieldnames = ['sku', 'categories', 'location', 'product_type']
-        rows = {'sku': '', 'categories': '', 'location':'', 'product_type': 'simple'}
-        CreateCsv(path, 'Upload-' + weekNumber + '-admin-cat_loc.csv', fieldnames, rows)
+        # # Create Category and Location file
+        # fieldnames = ['sku', 'categories', 'location', 'product_type']
+        # rows = {'sku': '', 'categories': '', 'location':'', 'product_type': 'simple'}
+        # CreateCsv(path, 'Upload-' + weekNumber + '-admin-cat_loc.csv', fieldnames, rows)
+    
+    # Shopify
+    def createAdminFile(self, weekNumber, orgFilepath):
+        print('Creates admin upload file...')              
+        xls = ReadXls()
+        orgFileFieldnames = xls.getFieldnames(orgFilepath)
+        orgFileValues = xls.getValues(orgFilepath, orgFileFieldnames)
+        # file
+        filepath = ROOT_DIR + '/' + weekNumber + '/Admin/'
+        filename = weekNumber + '-Admin-Upload.xls'
+                
+        # Values we need as headers form the admin file
+        adminDict = {'SKU' : '', 'Supplier' : '', 'Supplier SKU': '', 'EAN_new' : '', 'Name (en-GB)' : '', 'Price (en-GB)' : '', 'Final Price (en-GB)' : '', 'Price (de-DE)' : '', 'Final Price (de-DE)' : '', 'Price (nl-NL)' : '', 'Final Price (nl-NL)' : '', 'Price (fi-FI)' : '', 'Final Price (fi-FI)' : '', 'Price (da-DK)' : '', 'Final Price (da-DK)': '', 'Price (nb-NO)' : '', 'Final Price (nb-NO)' : '', 'Price (sv-SE)' : '', 'Final Price (sv-SE)' : '', 'Description (en-GB)' : '', 'Image' : '', 'Model' : '', 'List' : '', 'Gallery' : ''}
+
+        # Loop through the original file, and the admin file
+        for orgField in orgFileValues:
+            for key in adminDict.keys():
+                # If original file has the same key/fieldname as in adminDict, (case insensetive)
+                if orgField.lower() == key.lower():
+                    # insert value from org. file into adminDict
+                    adminDict[key] = orgFileValues[orgField]
+        
+        # Create the admin Excel File 
+        CreateXls(filepath + filename, fieldnames = list(adminDict.keys()), columns = adminDict)            
 
     # Images
     def imgFolder(self, weekNumber):
@@ -110,13 +144,13 @@ class CreateNewFolder:
         fieldnames = ['P/N', 'ean', 'sku', 'Q\'ty']
 
         # Getting values from xls
-        readXls = ReadXls(weekNumber, orgFilename, fieldnames)	
-        fileColumns = readXls.readFile()
+        xls = ReadXls()
+        fileColumns = xls.getValues(orgFilename, fieldnames)
 
         # Changing columns according to TVC requirements
         fileColumns['SKUS'] = fileColumns.pop('sku')
         fieldnames[2] = 'SKUS'
-
+        
         # Create Xls. TVC requires sku spelled differently
         CreateXls(path + weekNumber + '-' + tvcNo + '-TVC.xls', fieldnames, fileColumns)
 
