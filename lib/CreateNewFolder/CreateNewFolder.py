@@ -56,7 +56,7 @@ class CreateNewFolder:
     # Admin
     def adminFolder(self, week):
         print('Creates Admin folder...')
-        createFolder = CreateFolder(week = week + '/Admin')
+        createFolder = CreateFolder(path = week + '/Admin')
         path = createFolder.folder()
         filename = week + '-Admin-Upload.xls'
 
@@ -174,6 +174,6 @@ class CreateNewFolder:
         shutil.move(original,target)
 
     # Open folder in Finder
-    def openFolder(self, weekNumber):
-        targetDirectory = WEEKLIST_DIR + weekNumber
-        call(["open", targetDirectory])
+    def openFolder(self, week:str):
+        shared = Shared()
+        shared.openFolder(targetDirectory = WEEKLIST_DIR + week)

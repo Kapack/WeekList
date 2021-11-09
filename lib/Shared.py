@@ -13,22 +13,22 @@ from subprocess import call
 class Shared:
     def userInput(self, week: bool=False, tvc: bool=False, file_id: bool=False) -> list:        
         userInput = []
-        # if week == True:
-        #     weekNumber = input("Week number?: ")
-        #     userInput.append(str(weekNumber))
+        if week == True:
+            weekNumber = input("Week number?: ")
+            userInput.append(str(weekNumber))
         
-        # if tvc == True:
-        #     tvcNo = input("Enter the TVC no?: ")
-        #     userInput.append(str(tvcNo))
+        if tvc == True:
+            tvcNo = input("Enter the TVC no?: ")
+            userInput.append(str(tvcNo))
         
-        # if file_id == True:
-        #     file_id = input("Enter the file id to download: ")
-        #     userInput.append(str(file_id))
+        if file_id == True:
+            file_id = input("Enter the file id to download: ")
+            userInput.append(str(file_id))
 
         # TESTING FILES    
-        userInput.append('302')        
-        userInput.append('E21050300001')
-        userInput.append('1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO')
+        # userInput.append('302')        
+        # userInput.append('E21050300001')
+        # userInput.append('1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO')
 
         # userInput[0] = '002'        
         # userInput[1] = 'E21050300001'
@@ -51,16 +51,10 @@ class Shared:
     
     # Moves a week folder from this folder, to local week list folder
     def moveFile(self, week:str, currentPath:str, newPath:str):        
-    # def moveFile(self, week:str, filename:str):        
         # Move the downloaded file to local weekfolder  (Current path, NewPath)
         shutil.move(currentPath, newPath)
-        # shutil.move(ROOT_DIR + '/' + week + '/' + filename, WEEKLIST_DIR + week + '/' + filename)
         # delete devWeek
-        # shutil.rmtree(path)
-        shutil.rmtree(ROOT_DIR + '/' + week)       
-
-        # os.rmdir(ROOT_DIR + '/' + week)       
-
+        shutil.rmtree(ROOT_DIR + '/' + week)
     
     def createAdminFile(self, week, orgFilepath):        
         xls = ReadXls()
@@ -85,15 +79,6 @@ class Shared:
         # Create the admin Excel File 
         CreateXls(path = path + filename, fieldnames = list(adminDict.keys()), columns = adminDict)  
     
-
-    # # Move the folder to Import Products/Week Lists
-    # def moveParentFolder(self, filepath:str, targetpath:str):
-    #     print('Moves to directory...')        
-    #     original = ROOT_DIR + '/' + filepath        
-    #     # target = WEEKLIST_DIR + '/' + week + '/Admin/'
-    #     target = targetpath
-    #     shutil.move(original, target)
-
     # Open folder in Finder
     def openFolder(self, targetDirectory:str):        
         targetDirectory = targetDirectory

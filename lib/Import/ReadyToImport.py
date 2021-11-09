@@ -5,15 +5,12 @@ from lib.CreatePrice.CreatePrice import CreatePrice
 from config.definitions import ROOT_DIR, WEEKLIST_DIR, ADMIN_FIELDNAMES
 #
 import xlwt
-# import os
-import shutil
 from subprocess import call
 
 class ReadyToImport:
     def __init__(self, week:bool, tvc:bool, file_id:bool):
-        userInput = self.userInput(week, tvc, file_id)
-        orgFile = self.downloadNewestChecklist(week = userInput[0], file_id = userInput[2])
-
+        userInput = self.userInput(week, tvc, file_id)        
+        orgFile = self.downloadNewestChecklist(week = userInput[0], file_id = userInput[1])        
         # Create dict        
         orgValues = self.createAdminDictFromDrive(orgFilepath = orgFile)         
         #
@@ -32,13 +29,11 @@ class ReadyToImport:
     # Downloads the newest list from GDrive 
     def downloadNewestChecklist(self, week:str, file_id:str) -> str:
         # download the file from Google Drive
-        # shared = Shared()
-        # filename = shared.downloadNewestChecklist(week = week, file_id = file_id)        
-        
-        ## DEV ##
-        filename = ROOT_DIR + '/' + week + '/302-LIST-V06.xls'        
+        shared = Shared()
+        filename = shared.downloadNewestChecklist(week = week, file_id = file_id)                
+        filepath = ROOT_DIR + '/' + week + '/' + filename
         #        
-        return filename
+        return filepath
     
     def createAdminDictFromDrive(self, orgFilepath:str) -> dict:
         xls = ReadXls()
@@ -73,17 +68,16 @@ class ReadyToImport:
                     ii += 1
 
             i += 1
-
-        # filepath = ROOT_DIR + '/' + week + '/Admin/' + week + '-Admin-TEST-Upload.xls'
-        filename = week + '-Admin-TEST-Upload.xls'
-        woorkbook.save(ROOT_DIR + '/' + week + '/Admin/' + filename)
+        # Save workboook
+        filename = week + '-Admin-Upload.xls'
+        woorkbook.save(ROOT_DIR + '/' + week + '/' + filename)
         return filename
     
     # Moves a week folder from this folder, to local week list folder
     def moveFile(self, week:str, filename:str):             
         shared = Shared()     
         # paths
-        currentPath = ROOT_DIR + '/' + week + '/Admin/' + filename
+        currentPath = ROOT_DIR + '/' + week + '/' + filename
         newPath = WEEKLIST_DIR + week + '/Admin/' + filename
         # move file
         shared.moveFile(week = week, currentPath = currentPath, newPath = newPath)

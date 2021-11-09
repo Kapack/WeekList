@@ -7,14 +7,13 @@ from lib.Import.ReadyToImport import ReadyToImport
 
 from lib.Shared import Shared
 #
-from subprocess import call
+# from subprocess import call
 from config.definitions import WEEKLIST_DIR
 
 class Main:
 	def __init__(self):
-		# whatToDo = self.whatToDo()		
+		whatToDo = self.whatToDo()		
 
-		whatToDo = '5'
 		# Which method to run depending on 
 		if whatToDo == '1':
 			self.createTheFolder()
@@ -70,9 +69,7 @@ class Main:
 		shared = Shared()
 		userInput = shared.userInput(week=True)
 		weekNumber = userInput[0]        		
-		targetDirectory = WEEKLIST_DIR + weekNumber						
-		call(["open", targetDirectory])
-
+		shared.openFoldert(targetDirectory = WEEKLIST_DIR + weekNumber)
 	
 if __name__ == '__main__':
 	Main()
