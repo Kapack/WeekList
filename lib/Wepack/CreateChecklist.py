@@ -30,7 +30,8 @@ class CreateChecklist:
     # download the file from Google Drive
     def downloadNewestChecklist(self, week, file_id):
         shared = Shared()
-        shared.downloadNewestChecklist(week, file_id)
+        filename = shared.downloadNewestChecklist(week, file_id)
+        shared.moveFile(filename)
 
     # Open Local TVC File
     def openLocalChecklistFile(self, week, tvcNo): 

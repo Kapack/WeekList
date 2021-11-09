@@ -5,7 +5,7 @@ from lib.CreateNewFolder.CreateCsv import CreateCsv
 from lib.CreateNewFolder.CreateXls import CreateXls
 from lib.CreateNewFolder.ReadXls import ReadXls
 from lib.Shared import Shared
-from config.definitions import ROOT_DIR, WEEKLIST_DIR
+from config.definitions import ROOT_DIR, WEEKLIST_DIR, ADMIN_FIELDNAMES
 #
 # import os
 import shutil
@@ -54,14 +54,15 @@ class CreateNewFolder:
         return filepath
 
     # Admin
-    def adminFolder(self, weekNumber):
+    def adminFolder(self, week):
         print('Creates Admin folder...')
-        createFolder = CreateFolder(weekNumber + '/Admin')
+        createFolder = CreateFolder(week = week + '/Admin')
         path = createFolder.folder()
-        filename = weekNumber + '-Admin-Upload.xls'
+        filename = week + '-Admin-Upload.xls'
 
         # Create Main File (Shopify version)
-        fieldnames = ['SKU', 'Supplier', 'Supplier SKU', 'EAN_new',	'Name (en-GB)', 'Price (en-GB)', 'Final Price (en-GB)', 'Price (de-DE)', 'Final Price (de-DE)', 'Price (nl-NL)', 'Final Price (nl-NL)', 'Price (fi-FI)', 'Final Price (fi-FI)', 'Price (da-DK)', 'Final Price (da-DK)', 'Price (nb-NO)', 'Final Price (nb-NO)', 'Price (sv-SE)', 'Final Price (sv-SE)', 'Description (en-GB)', 'Image', 'Model', 'List', 'Gallery']
+        fieldnames = ADMIN_FIELDNAMES
+        # fieldnames = ['SKU', 'Supplier', 'Supplier SKU', 'EAN_new',	'Name (en-GB)', 'Price (en-GB)', 'Final Price (en-GB)', 'Price (de-DE)', 'Final Price (de-DE)', 'Price (nl-NL)', 'Final Price (nl-NL)', 'Price (fi-FI)', 'Final Price (fi-FI)', 'Price (da-DK)', 'Final Price (da-DK)', 'Price (nb-NO)', 'Final Price (nb-NO)', 'Price (sv-SE)', 'Final Price (sv-SE)', 'Description (en-GB)', 'Image', 'Model', 'List', 'Gallery']
         # Creates the excel file
         CreateXls(path + filename, fieldnames)        
         
@@ -83,26 +84,28 @@ class CreateNewFolder:
     # Shopify
     def createAdminFile(self, weekNumber, orgFilepath):
         print('Creates admin upload file...')              
-        xls = ReadXls()
-        orgFileFieldnames = xls.getFieldnames(orgFilepath)
-        orgFileValues = xls.getValues(orgFilepath, orgFileFieldnames)
-        # file
-        filepath = ROOT_DIR + '/' + weekNumber + '/Admin/'
-        filename = weekNumber + '-Admin-Upload.xls'
+        shared = Shared()        
+        shared.createAdminFile(week = weekNumber, orgFilepath = orgFilepath)
+        # xls = ReadXls()
+        # orgFileFieldnames = xls.getFieldnames(orgFilepath)
+        # orgFileValues = xls.getValues(orgFilepath, orgFileFieldnames)
+        # # file
+        # filepath = ROOT_DIR + '/' + weekNumber + '/Admin/'
+        # filename = weekNumber + '-Admin-Upload.xls'
                 
-        # Values we need as headers form the admin file
-        adminDict = {'SKU' : '', 'Supplier' : '', 'Supplier SKU': '', 'EAN_new' : '', 'Name (en-GB)' : '', 'Price (en-GB)' : '', 'Final Price (en-GB)' : '', 'Price (de-DE)' : '', 'Final Price (de-DE)' : '', 'Price (nl-NL)' : '', 'Final Price (nl-NL)' : '', 'Price (fi-FI)' : '', 'Final Price (fi-FI)' : '', 'Price (da-DK)' : '', 'Final Price (da-DK)': '', 'Price (nb-NO)' : '', 'Final Price (nb-NO)' : '', 'Price (sv-SE)' : '', 'Final Price (sv-SE)' : '', 'Description (en-GB)' : '', 'Image' : '', 'Model' : '', 'List' : '', 'Gallery' : ''}
+        # # Values we need as headers form the admin file
+        # adminDict = {'SKU' : '', 'Supplier' : '', 'Supplier SKU': '', 'EAN_new' : '', 'Name (en-GB)' : '', 'Price (en-GB)' : '', 'Final Price (en-GB)' : '', 'Price (de-DE)' : '', 'Final Price (de-DE)' : '', 'Price (nl-NL)' : '', 'Final Price (nl-NL)' : '', 'Price (fi-FI)' : '', 'Final Price (fi-FI)' : '', 'Price (da-DK)' : '', 'Final Price (da-DK)': '', 'Price (nb-NO)' : '', 'Final Price (nb-NO)' : '', 'Price (sv-SE)' : '', 'Final Price (sv-SE)' : '', 'Description (en-GB)' : '', 'Image' : '', 'Model' : '', 'List' : '', 'Gallery' : ''}
 
-        # Loop through the original file, and the admin file
-        for orgField in orgFileValues:
-            for key in adminDict.keys():
-                # If original file has the same key/fieldname as in adminDict, (case insensetive)
-                if orgField.lower() == key.lower():
-                    # insert value from org. file into adminDict
-                    adminDict[key] = orgFileValues[orgField]
+        # # Loop through the original file, and the admin file
+        # for orgField in orgFileValues:
+        #     for key in adminDict.keys():
+        #         # If original file has the same key/fieldname as in adminDict, (case insensetive)
+        #         if orgField.lower() == key.lower():
+        #             # insert value from org. file into adminDict
+        #             adminDict[key] = orgFileValues[orgField]
         
-        # Create the admin Excel File 
-        CreateXls(filepath + filename, fieldnames = list(adminDict.keys()), columns = adminDict)            
+        # # Create the admin Excel File 
+        # CreateXls(filepath + filename, fieldnames = list(adminDict.keys()), columns = adminDict)            
 
     # Images
     def imgFolder(self, weekNumber):

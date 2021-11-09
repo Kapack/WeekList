@@ -29,10 +29,11 @@ class UpdateLocationQty:
         userInput = shared.userInput(week, tvc, file_id)      
         return userInput
     
-    def downloadNewestChecklist(self, week, file_id):
+    def downloadNewestChecklist(self, week:str, file_id:str):
         # download the file from Google Drive
         shared = Shared()
-        shared.downloadNewestChecklist(week, file_id)
+        filename = shared.downloadNewestChecklist(week, file_id)
+        shared.moveFile(filename)
 
     # Local Download folder
     def openLocalDownloadFolder(self):

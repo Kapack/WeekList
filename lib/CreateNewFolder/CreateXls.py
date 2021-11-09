@@ -18,7 +18,7 @@ class CreateXls:
 		sheet = woorkbook.add_sheet('Sheet1')
 
 		# If columns from orgFile has been added, create a file with values
-		if columns != None:
+		if columns != None:			
 
 			i = 0
 			for field in columns:				
@@ -26,7 +26,7 @@ class CreateXls:
 				sheet.write(0, i, field)
 						
 				# Remove first field from columns so we don't have two headers
-				if type(columns[field]) == list:
+				if type(columns[field]) == list:					
 					columns[field].pop(0)				
 					
 				# Write cells values

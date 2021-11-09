@@ -13,7 +13,7 @@ class ReadXls:
 		# The first sheet
 		firstSheet = workbook.sheet_by_name(sheet_names[0])
 		# Getting the row from the first sheet	
-		firstRow = firstSheet.row_values(0)		
+		firstRow = firstSheet.row_values(0)				
 		return firstRow
 	
 	def getValues(self, filepath, fieldnames) -> dict:				
