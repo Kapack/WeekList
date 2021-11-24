@@ -43,7 +43,7 @@ class Main:
 	# 1: Create a new Folder? (SKU\'s is done.)
 	def createTheFolder(self):				
 		CreateNewFolder(week=True, tvc=True, file_id=True)
-		print('Done. Now you\'re ready to prepare for TVC (Step 2).')
+		print('Done. Now you\'re ready to prepare and upload TVC to Drive (Step 2).')
 
 	# 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC)
 	def prepareForEAN(self):
@@ -62,14 +62,14 @@ class Main:
 	# 5: Get list ready for import
 	def readyToImport(self):
 		ReadyToImport(week=True, tvc=False, file_id=True)
-		print('Done. Check the list and then it\'s ready to import!')
+		print('Done. Remember to doublecheck the list. Is pricing correct? And then it\'s ready to import!')
 
 	# 9: Open a Week Folder?
 	def openWeekListFolder(self):
 		shared = Shared()
 		userInput = shared.userInput(week=True)
-		weekNumber = userInput[0]        		
-		shared.openFoldert(targetDirectory = WEEKLIST_DIR + weekNumber)
+		weekNumber = userInput[0]
+		shared.openFolder(targetDirectory = WEEKLIST_DIR + weekNumber)
 	
 if __name__ == '__main__':
 	Main()

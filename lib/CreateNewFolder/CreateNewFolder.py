@@ -5,7 +5,7 @@ from lib.CreateNewFolder.CreateCsv import CreateCsv
 from lib.CreateNewFolder.CreateXls import CreateXls
 from lib.CreateNewFolder.ReadXls import ReadXls
 from lib.Shared import Shared
-from config.definitions import ROOT_DIR, WEEKLIST_DIR, ADMIN_FIELDNAMES
+from config.definitions import ROOT_DIR, WEEKLIST_DIR, STRUCT_FIELDNAMES
 #
 # import os
 import shutil
@@ -61,7 +61,7 @@ class CreateNewFolder:
         filename = week + '-Admin-Upload.xls'
 
         # Create Main File (Shopify version)
-        fieldnames = ADMIN_FIELDNAMES
+        fieldnames = STRUCT_FIELDNAMES
         # fieldnames = ['SKU', 'Supplier', 'Supplier SKU', 'EAN_new',	'Name (en-GB)', 'Price (en-GB)', 'Final Price (en-GB)', 'Price (de-DE)', 'Final Price (de-DE)', 'Price (nl-NL)', 'Final Price (nl-NL)', 'Price (fi-FI)', 'Final Price (fi-FI)', 'Price (da-DK)', 'Final Price (da-DK)', 'Price (nb-NO)', 'Final Price (nb-NO)', 'Price (sv-SE)', 'Final Price (sv-SE)', 'Description (en-GB)', 'Image', 'Model', 'List', 'Gallery']
         # Creates the excel file
         CreateXls(path + filename, fieldnames)        

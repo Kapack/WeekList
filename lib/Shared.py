@@ -3,7 +3,7 @@ from lib.CreateNewFolder.ReadXls import ReadXls
 from lib.CreateNewFolder.CreateXls import CreateXls
 from lib.CreateNewFolder.CreateFolder import CreateFolder
 
-from config.definitions import ROOT_DIR, WEEKLIST_DIR
+from config.definitions import ROOT_DIR
 
 import webbrowser
 import os
@@ -13,6 +13,7 @@ from subprocess import call
 class Shared:
     def userInput(self, week: bool=False, tvc: bool=False, file_id: bool=False) -> list:        
         userInput = []
+
         if week == True:
             weekNumber = input("Week number?: ")
             userInput.append(str(weekNumber))
@@ -26,7 +27,7 @@ class Shared:
             userInput.append(str(file_id))
 
         # TESTING FILES    
-        # userInput.append('302')        
+        # userInput.append('302')
         # userInput.append('E21050300001')
         # userInput.append('1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO')
 
