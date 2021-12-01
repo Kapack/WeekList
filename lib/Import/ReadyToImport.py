@@ -1,9 +1,7 @@
 from lib.Shared import Shared
 from lib.CreateNewFolder.ReadXls import ReadXls
-# from lib.CreatePrice.CreatePrice import CreatePrice
 from lib.Import.Shopify.Struct import Struct
 from lib.Import.Shopify.Ongoing import Ongoing
-
 
 from config.definitions import ROOT_DIR, WEEKLIST_DIR
 #
@@ -13,7 +11,7 @@ from subprocess import call
 
 class ReadyToImport:
     def __init__(self, week:bool, tvc:bool, file_id:bool):
-        userInput = self.userInput(week, tvc, file_id)                   
+        userInput = self.userInput(week, tvc, file_id)                           
         orgFile = self.downloadNewestChecklist(week = userInput[0], file_id = userInput[1])        
         orgValues = self.createAdminDictFromDrive(orgFilepath = orgFile)
         
@@ -21,10 +19,9 @@ class ReadyToImport:
         filenames = []
         # Struct
         filenames.append(self.createStructImport(orgValues = orgValues, week = userInput[0]))
-
         # Ongoing
         filenames.append(self.createOngoingImport(orgValues = orgValues, week = userInput[0]))
-                
+
         # Move Files
         self.moveFile(week = userInput[0], filenames = filenames)
         self.openFolder(week = userInput[0])
@@ -39,7 +36,7 @@ class ReadyToImport:
     def downloadNewestChecklist(self, week:str, file_id:str) -> str:
         # download the file from Google Drive
         shared = Shared()
-        filename = shared.downloadNewestChecklist(week = week, file_id = file_id)                
+        filename = shared.downloadListFromDrive(week = week, file_id = file_id)                
         filepath = ROOT_DIR + '/' + week + '/' + filename
         #        
         return filepath

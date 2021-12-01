@@ -6,12 +6,12 @@ from lib.CreateNewFolder.CreateFolder import CreateFolder
 from config.definitions import ROOT_DIR
 
 import webbrowser
-import os
+# import os
 import shutil
 from subprocess import call
 
 class Shared:
-    def userInput(self, week: bool=False, tvc: bool=False, file_id: bool=False) -> list:        
+    def userInput(self, week: bool=False, tvc: bool=False, file_id: bool=False, add_img: bool=False) -> list:        
         userInput = []
 
         if week == True:
@@ -23,17 +23,24 @@ class Shared:
             userInput.append(str(tvcNo))
         
         if file_id == True:
-            file_id = input("Enter the file id to download: ")
+            file_id = input("Enter the checklist file id to download: ")
             userInput.append(str(file_id))
+
+        if add_img == True:
+            add_img = input("Enter the add. image file id: ")
+            userInput.append(str(add_img))
 
         # TESTING FILES    
         # userInput.append('302')
         # userInput.append('E21050300001')
         # userInput.append('1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO')
+        # userInput.append('1WWT3M6B-CFi5JI3otIOwD5KhZGW2Z1bB')        
 
-        # userInput[0] = '002'        
-        # userInput[1] = 'E21050300001'
-        # userInput[2] = '1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO'
+        # userInput[0] = '302'        
+        # # userInput[1] = 'E21050300001'
+        # # userInput[2] = '1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO'
+        # userInput[3] = '1WWT3M6B-CFi5JI3otIOwD5KhZGW2Z1bB'
+
         return userInput        
 
     def openCM(self):
@@ -41,7 +48,7 @@ class Shared:
         webbrowser.open(url, new=0)    
 
     # Download list from google Drive
-    def downloadNewestChecklist(self, week, file_id) -> str:
+    def downloadListFromDrive(self, week, file_id) -> str:
         # download the file from Google Drive
         googleDrive = GoogleDrive()
         # Creates token so our user can access/use Google APIs

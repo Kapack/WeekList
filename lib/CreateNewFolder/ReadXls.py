@@ -22,7 +22,7 @@ class ReadXls:
 		# Getting the first sheet
 		sheet = workbook.sheet_by_index(0)
 		# Create Dict from list, zip(key, values)			
-		dictOfValues = { field : [] for field in fieldnames }		
+		dictOfValues = { field : [] for field in fieldnames }
 		# Loop through given fields
 		for fieldname in fieldnames:			
 			for row in range(sheet.nrows):				
@@ -31,6 +31,7 @@ class ReadXls:
 					if sheet.cell_value(row, col) == fieldname:
 						# Append to Dictionary
 						dictOfValues[fieldname] = sheet.col_values(col, row)
+						
 		# Return the dict
 		return dictOfValues
 

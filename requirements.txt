@@ -1,0 +1,7 @@
+webbrowser
+os
+shutil
+subprocess
+csv
+xlwt
+pandas_ods_reader
