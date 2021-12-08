@@ -71,7 +71,6 @@ class AdditionalImage:
         # Return
         return images
 
-
     def createXls(self, values:dict, week:str):
         # Creating workbook
         workbook = xlwt.Workbook()

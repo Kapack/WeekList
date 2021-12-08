@@ -5,7 +5,7 @@ from lib.Import.Shopify.Ongoing import Ongoing
 
 from config.definitions import ROOT_DIR, WEEKLIST_DIR
 #
-import xlwt
+# import xlwt
 import shutil
 from subprocess import call
 
@@ -14,7 +14,7 @@ class ReadyToImport:
         userInput = self.userInput(week, tvc, file_id)                           
         orgFile = self.downloadNewestChecklist(week = userInput[0], file_id = userInput[1])        
         orgValues = self.createAdminDictFromDrive(orgFilepath = orgFile)
-        
+
         # A list of file names we will move later into weekList folder        
         filenames = []
         # Struct
@@ -49,7 +49,7 @@ class ReadyToImport:
 
     # Create Struct    
     def createStructImport(self, orgValues:str, week:str) -> str:
-        struct = Struct()
+        struct = Struct() 
         adminValues = struct.createPrices(adminValues = orgValues)
         filename = struct.createAdminFromDict(adminValues = adminValues, week = week)
         return filename
