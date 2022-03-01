@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.0
-from lib.CreateNewFolder.CreateNewFolder import CreateNewFolder
+from lib.CreateBasicFolder.CreateBasicFolder import CreateBasicFolder
 from lib.PrepareForEAN.PrepareForEAN import PrepareForEAN
 from lib.Wepack.CreateChecklist import CreateChecklist
 from lib.Wepack.UpdateLocationQty import UpdateLocationQty
@@ -15,8 +15,8 @@ class Main:
 
 		# Which method to run depending on 
 		if whatToDo == '1':
-			self.createTheFolder()
-		
+			self.createTheFolder()			
+
 		elif whatToDo == '2':
 			self.prepareForEAN()
 		
@@ -44,7 +44,7 @@ class Main:
 
 	# 1: Create a new Folder? (SKU\'s is done.)
 	def createTheFolder(self):				
-		CreateNewFolder(week=True, tvc=True, file_id=True)
+		CreateBasicFolder(week=True, tvc=True, file_id=True)
 		print('Done. Now you\'re ready to prepare and upload TVC to Drive (Step 2).')
 
 	# 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC)

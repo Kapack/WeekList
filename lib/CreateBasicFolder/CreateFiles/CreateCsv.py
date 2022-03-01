@@ -1,5 +1,4 @@
 import csv
-import os
 
 class CreateCsv:
 	def __init__(self, path, fileName, fields, rows={}):

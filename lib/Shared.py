@@ -1,7 +1,7 @@
 from lib.Drive.GoogleDrive import GoogleDrive
-from lib.CreateNewFolder.ReadXls import ReadXls
-from lib.CreateNewFolder.CreateXls import CreateXls
-from lib.CreateNewFolder.CreateFolder import CreateFolder
+from lib.CreateBasicFolder.ReadXls import ReadXls
+from lib.CreateBasicFolder.CreateXlsx import CreateXlsx
+from lib.CreateBasicFolder.CreateFolder import CreateFolder
 
 from config.definitions import ROOT_DIR
 
@@ -23,7 +23,7 @@ class Shared:
             userInput.append(str(tvcNo))
         
         if file_id == True:
-            file_id = input("Enter the checklist file id to download: ")
+            file_id = input("Enter the checklist file id to download: ")            
             userInput.append(str(file_id))
 
         if add_img == True:
@@ -64,28 +64,28 @@ class Shared:
         # delete devWeek
         shutil.rmtree(ROOT_DIR + '/' + week)
     
-    def createAdminFile(self, week, orgFilepath):        
-        xls = ReadXls()
-        orgFileFieldnames = xls.getFieldnames(orgFilepath)
-        orgFileValues = xls.getValues(orgFilepath, orgFileFieldnames)
-        # Creates new Admin File and Folder
-        createFolder = CreateFolder(path = week + '/Admin')
-        path = createFolder.folder()
-        filename = week + '-Admin-Upload.xls'
+    # def createAdminFile(self, week, orgFilepath):        
+    #     xls = ReadXls()
+    #     orgFileFieldnames = xls.getFieldnames(orgFilepath)
+    #     orgFileValues = xls.getValues(orgFilepath, orgFileFieldnames)
+    #     # Creates new Admin File and Folder
+    #     createFolder = CreateFolder(path = week + '/Admin')
+    #     path = createFolder.folder()
+    #     filename = week + '-Admin-Upload.xls'
                 
-        # # Values we need as headers form the admin file
-        adminDict = {'SKU' : '', 'Supplier' : '', 'Supplier SKU': '', 'EAN_new' : '', 'Name (en-GB)' : '', 'Price (en-GB)' : '', 'Final Price (en-GB)' : '', 'Price (de-DE)' : '', 'Final Price (de-DE)' : '', 'Price (nl-NL)' : '', 'Final Price (nl-NL)' : '', 'Price (fi-FI)' : '', 'Final Price (fi-FI)' : '', 'Price (da-DK)' : '', 'Final Price (da-DK)': '', 'Price (nb-NO)' : '', 'Final Price (nb-NO)' : '', 'Price (sv-SE)' : '', 'Final Price (sv-SE)' : '', 'Description (en-GB)' : '', 'Image' : '', 'Model' : '', 'List' : '', 'Gallery' : ''}
+    #     # # Values we need as headers form the admin file
+    #     adminDict = {'SKU' : '', 'Supplier' : '', 'Supplier SKU': '', 'EAN_new' : '', 'Name (en-GB)' : '', 'Price (en-GB)' : '', 'Final Price (en-GB)' : '', 'Price (de-DE)' : '', 'Final Price (de-DE)' : '', 'Price (nl-NL)' : '', 'Final Price (nl-NL)' : '', 'Price (fi-FI)' : '', 'Final Price (fi-FI)' : '', 'Price (da-DK)' : '', 'Final Price (da-DK)': '', 'Price (nb-NO)' : '', 'Final Price (nb-NO)' : '', 'Price (sv-SE)' : '', 'Final Price (sv-SE)' : '', 'Description (en-GB)' : '', 'Image' : '', 'Model' : '', 'List' : '', 'Gallery' : ''}
 
-        # Loop through the original file, and the admin file
-        for orgField in orgFileValues:
-            for key in adminDict.keys():
-                # If original file has the same key/fieldname as in adminDict, (case insensetive)
-                if orgField.lower() == key.lower():
-                    # insert value from org. file into adminDict
-                    adminDict[key] = orgFileValues[orgField]
+    #     # Loop through the original file, and the admin file
+    #     for orgField in orgFileValues:
+    #         for key in adminDict.keys():
+    #             # If original file has the same key/fieldname as in adminDict, (case insensetive)
+    #             if orgField.lower() == key.lower():
+    #                 # insert value from org. file into adminDict
+    #                 adminDict[key] = orgFileValues[orgField]
         
-        # Create the admin Excel File 
-        CreateXls(path = path + filename, fieldnames = list(adminDict.keys()), columns = adminDict)  
+    #     # Create the admin Excel File 
+    #     CreateXlsx(path = path + filename, fieldnames = list(adminDict.keys()), columns = adminDict)  
     
     # Open folder in Finder
     def openFolder(self, targetDirectory:str):        

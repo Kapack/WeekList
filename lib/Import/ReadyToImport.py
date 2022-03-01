@@ -1,5 +1,5 @@
 from lib.Shared import Shared
-from lib.CreateNewFolder.ReadXls import ReadXls
+from lib.CreateBasicFolder.ReadXls import ReadXls
 from lib.Import.Shopify.Struct import Struct
 from lib.Import.Shopify.Ongoing import Ongoing
 
@@ -36,7 +36,7 @@ class ReadyToImport:
     def downloadNewestChecklist(self, week:str, file_id:str) -> str:
         # download the file from Google Drive
         shared = Shared()
-        filename = shared.downloadListFromDrive(week = week, file_id = file_id)                
+        filename = shared.downloadListFromDrive(week = week, file_id = file_id)
         filepath = ROOT_DIR + '/' + week + '/' + filename
         #        
         return filepath
@@ -51,6 +51,7 @@ class ReadyToImport:
     def createStructImport(self, orgValues:str, week:str) -> str:
         struct = Struct() 
         adminValues = struct.createPrices(adminValues = orgValues)
+        # adminValues = orgValues
         filename = struct.createAdminFromDict(adminValues = adminValues, week = week)
         return filename
     
@@ -65,7 +66,7 @@ class ReadyToImport:
         for filename in filenames:
             # paths
             currentPath = ROOT_DIR + '/' + week + '/' + filename
-            newPath = WEEKLIST_DIR + week + '/Admin/' + filename
+            newPath = WEEKLIST_DIR + week + '/Shopify/' + filename
             # Move files
             shutil.move(currentPath, newPath)        
         # remove devFolder

@@ -33,7 +33,7 @@ class CreateChecklist:
         filename = shared.downloadListFromDrive(week, file_id)
         shared.moveFile(filename)
 
-    # Open Local TVC File
+    # Open Local Checklist File
     def openLocalChecklistFile(self, week, tvcNo): 
         targetDirectory = WEEKLIST_DIR + week + '/WePack/' + week + '-' + tvcNo + '-Checklist.xls'
         call(["open", targetDirectory])

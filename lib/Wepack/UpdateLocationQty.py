@@ -1,6 +1,6 @@
 from lib.Shared import Shared
 from lib.Drive.GoogleDrive import GoogleDrive
-from config.definitions import WEEKLIST_DIR
+from config.definitions import ROOT_DIR, WEEKLIST_DIR
 
 from subprocess import call
 
@@ -33,7 +33,7 @@ class UpdateLocationQty:
         # download the file from Google Drive
         shared = Shared()
         filename = shared.downloadListFromDrive(week, file_id)
-        shared.moveFile(filename)
+        shared.moveFile(week = week, currentPath = ROOT_DIR + '/' + week + '/' + filename, newPath = WEEKLIST_DIR + week)
 
     # Local Download folder
     def openLocalDownloadFolder(self):
@@ -42,4 +42,4 @@ class UpdateLocationQty:
     
     def openLocalWepackFolder(self, weekNumber):
         targetDirectory = WEEKLIST_DIR + weekNumber + '/WePack/'
-        call(["open", targetDirectory])    
+        call(["open", targetDirectory])

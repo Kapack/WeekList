@@ -1,12 +1,11 @@
 import os
-from config.definitions import ROOT_DIR
 
 class CreateFolder:
-	def __init__(self, path):
+	def __init__(self, path:str):
 		self.path = path
 
 	def folder(self):
-		path = ROOT_DIR + '/' + self.path + '/'
+		path = self.path
 		if not os.path.exists(path):
 			os.makedirs(path)
 
