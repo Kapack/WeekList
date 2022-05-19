@@ -9,7 +9,7 @@ class CreateCsv:
 		# Calling the save file method
 		self.saveFile()
 
-	def saveFile(self):
+	def saveFile(self) -> None:
 		path = self.path
 		fileName = self.fileName
 		fields = self.fields

@@ -1,10 +1,12 @@
 from lib.CreateBasicFolder.CreateFolder import CreateFolder
-from lib.CreateBasicFolder.CreateFiles.CreateXlsx import CreateXlsx
+from lib.CreateFiles.CreateXlsx import CreateXlsx
 from config.definitions import STRUCT_FIELDNAMES
 
 class ShopifyBaseFolderFile:
     def __init__(self, path:str, week:str):
         self.path = path
+        
+        self.createBaseFolder()
         adminPath = self.createAdminFolder(path = path)
         self.createAdminFile(path = adminPath, week = week)
         transPath = self.createTranslationFolder(path = path)

@@ -50,9 +50,9 @@ class GoogleDrive:
 			return service
 
 
-	def downloadFile(self, serviceToken, weekNumber, file_id):				
+	def downloadFile(self, serviceToken, week, file_id):				
 		# Create path if not exists
-		path = ROOT_DIR + '/' + weekNumber + '/'		
+		path = ROOT_DIR + '/' + week + '/'		
 		if not os.path.exists(path):
 			os.makedirs(path)
 

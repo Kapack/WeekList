@@ -1,14 +1,13 @@
 from config.definitions import ROOT_DIR, WEEKLIST_DIR
 from lib.Shared import Shared
+from lib.CreateFiles.CreateXlsx import CreateXlsx
+
 from pandas_ods_reader import read_ods
-import xlwt
-import os
 
 class AdditionalImage:    
     def __init__(self, week:bool, tvc:bool, file_id:bool, add_img:bool):            
         userInput = self.userInput(week, tvc, file_id, add_img)      
         filepath = self.downloadListFromDrive(week = userInput[0], add_img = userInput[1])
-
         dataDict = self.readOds(filepath = filepath)
         images = self.consolidateField(dataDict = dataDict)
         filename = self.createXls(values = images, week = userInput[0])        
@@ -25,7 +24,6 @@ class AdditionalImage:
         shared = Shared()
         filename = shared.downloadListFromDrive(week = week, file_id = add_img)        
         filepath = ROOT_DIR + '/' + week + '/' + filename
-
         return filepath
     
     def readOds(self, filepath:str) -> dict:
@@ -43,7 +41,6 @@ class AdditionalImage:
         return dataDict
     
     def consolidateField(self, dataDict:dict) -> dict:
-
         # Creating a list with all the skus
         skus = []        
         for headers in dataDict:
@@ -71,42 +68,20 @@ class AdditionalImage:
         # Return
         return images
 
-    def createXls(self, values:dict, week:str):
-        # Creating workbook
-        workbook = xlwt.Workbook()
-        sheet = workbook.add_sheet('Sheet1')
-        
-        # Creating headers
-        sheet.write(0, 0, 'SKU')
-        sheet.write(0, 1, 'Gallery')
-
-        i = 1
-        for sku in values:
-            # Writing skus
-            sheet.write(i, 0, sku)
-            # Writing images
-            sheet.write(i, 1, ';'.join(values[sku]))
-            i += 1                    
-
-        # Save workbook
-        filename = week + '-gallery.xls'
-        filepath = ROOT_DIR + '/' + week + '/IMG/'
-        # Create folder if not exists
-        if not os.path.exists(filepath):
-            os.makedirs(filepath)
-        
-        # Save workbook
-        workbook.save(filepath + '/' + filename)
-        #
+    def createXls(self, values:dict, week:str) -> str:
+        filename = week + '-Gallery.xlsx'         
+        filepath = ROOT_DIR + '/' + week + '/' + filename
+        create = CreateXlsx()
+        create.createAdditionalImages(filepath = filepath, fieldnames = ['SKU', 'Gallery'], values = values)
         return filename
     
     def moveFile(self, filename:str, week:str) -> None:
         shared = Shared()
-        currentPath = ROOT_DIR + '/' + week + '/IMG/' + filename
-        newPath = WEEKLIST_DIR + week + '/IMG/' + filename    
+        currentPath = ROOT_DIR + '/' + week + '/' + filename        
+        newPath = WEEKLIST_DIR + week + '/Shopify/Img/' + filename    
         shared.moveFile(week = week, currentPath = currentPath, newPath = newPath)
     
     # Open folder in Finder
-    def openFolder(self, week:str):        
+    def openFolder(self, week:str) -> None:        
         shared = Shared()
         shared.openFolder(targetDirectory = WEEKLIST_DIR + week)             

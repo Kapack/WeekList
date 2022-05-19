@@ -1,5 +1,5 @@
 from lib.Shared import Shared
-from lib.CreateBasicFolder.ReadXls import ReadXls
+from lib.ReadFiles.ReadXls import ReadXls
 from lib.Import.Shopify.Struct import Struct
 from lib.Import.Shopify.Ongoing import Ongoing
 
@@ -7,11 +7,11 @@ from config.definitions import ROOT_DIR, WEEKLIST_DIR
 #
 # import xlwt
 import shutil
-from subprocess import call
+# from subprocess import call
 
 class ReadyToImport:
-    def __init__(self, week:bool, tvc:bool, file_id:bool):
-        userInput = self.userInput(week, tvc, file_id)                           
+    def __init__(self, week:bool, tvc:bool, file_id:bool, shippingNo:bool):
+        userInput = self.userInput(week, tvc, file_id, shippingNo)                           
         orgFile = self.downloadNewestChecklist(week = userInput[0], file_id = userInput[1])        
         orgValues = self.createAdminDictFromDrive(orgFilepath = orgFile)
 
@@ -27,9 +27,9 @@ class ReadyToImport:
         self.openFolder(week = userInput[0])
 
     # For users input
-    def userInput(self, week:bool, tvc:bool, file_id:bool) -> list:
+    def userInput(self, week:bool, tvc:bool, file_id:bool, shippingNo:bool) -> list:                
         shared = Shared()
-        userInput = shared.userInput(week, tvc, file_id)              
+        userInput = shared.userInput(week, tvc, file_id, shippingNo)    
         return userInput
 
     # Downloads the newest list from GDrive 
@@ -38,7 +38,7 @@ class ReadyToImport:
         shared = Shared()
         filename = shared.downloadListFromDrive(week = week, file_id = file_id)
         filepath = ROOT_DIR + '/' + week + '/' + filename
-        #        
+        #
         return filepath
 
     def createAdminDictFromDrive(self, orgFilepath:str) -> dict:

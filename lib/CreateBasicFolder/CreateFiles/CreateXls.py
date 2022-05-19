@@ -8,7 +8,7 @@ class CreateXls:
 		# Calling the saveFile method
 		self.saveFile()
 
-	def saveFile(self):		
+	def saveFile(self) -> None:		
 		path = self.path
 		fieldnames = self.fieldnames
 		columns = self.columns

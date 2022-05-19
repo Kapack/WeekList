@@ -1,5 +1,3 @@
-# from lib.Shared import Shared
-# from lib.CreateNewFolder.ReadXls import ReadXls
 from lib.CreatePrice.CreatePrice import CreatePrice
 
 from config.definitions import ROOT_DIR, STRUCT_FIELDNAMES

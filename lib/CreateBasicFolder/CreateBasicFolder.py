@@ -1,4 +1,5 @@
 from lib.CreateBasicFolder.CreateFolder import CreateFolder
+from lib.CreateBasicFolder.Stock.StockFolder import StockFolder
 from lib.CreateBasicFolder.Magento.MagentoBaseFolderFile import MagentoBaseFolderFile
 from lib.CreateBasicFolder.Shopify.ShopifyBaseFolderFile import ShopifyBaseFolderFile
 from lib.Drive.GoogleDrive import GoogleDrive
@@ -8,25 +9,36 @@ from config.definitions import ROOT_DIR, WEEKLIST_DIR
 import shutil
 
 class CreateBasicFolder:
-    def __init__(self, week:bool, tvc:bool, file_id:bool):
-        userInput = self.userInput(week, tvc, file_id)
+    def __init__(self, week:bool, tvc:bool, file_id:bool, add_img:bool, shippingNo:bool):
+        """
+        Creates all the folders we need
+
+        :param bool week: Should there be a userinput for week
+        :param bool tvc: Should we ask user for tvc
+        :param bool file_id: Should we ask user for file_id
+        :param bool file_id: Should we ask user for shippingNo        
+        """
+
+        userInput = self.userInput(week, tvc, file_id, add_img, shippingNo)
         week = userInput[0]        
-        tvcNo = userInput[1]
-        file_id = userInput[2]                
+        tvcNo = userInput[1]        
+        file_id = userInput[2]        
+        shippingNo = userInput[3]
 
         self.parentFolder(week = week)
         orgFilePath = self.googleDrive(week = week, file_id = file_id)        
+        self.stockFolder(week = week, orgFile = orgFilePath, tvcNo = tvcNo, shippingNo = shippingNo)
         self.magentoFolder(week = week, orgFile = orgFilePath, tvcNo = tvcNo)
         self.shopifyFolder(week = week)        
         self.moveParentFolder(week = week)
         self.openFolder(week = week)
     
-    def userInput(self, week:bool, tvc:bool, file_id:bool):    
+    def userInput(self, week:bool, tvc:bool, file_id:bool, add_img:bool, shippingNo:bool):    
         shared = Shared()
-        userInput = shared.userInput(week, tvc, file_id)
+        userInput = shared.userInput(week, tvc, file_id, add_img, shippingNo)
         return userInput                
     
-    # Creates the "root" directory (week)
+    # Creates the week_number directory
     def parentFolder(self, week:str) -> str:
         print('Creates Parent folder...')
         createFolder = CreateFolder(path = ROOT_DIR + '/' + week + '/')
@@ -41,21 +53,25 @@ class CreateBasicFolder:
         # Download the file
         orgFile = googleDrive.downloadFile(serviceToken, week, file_id)        
         filepath = ROOT_DIR + '/' + week + '/' + orgFile
+        
+        # filepath = ROOT_DIR + '/' + week + '/368-LIST-V03_Skus_Tested.xls'
+
         return filepath
+    
+    # Creates stock folders (TVC and WePack)
+    def stockFolder(self, week:str, orgFile:str, tvcNo:str, shippingNo:str) -> None:
+        print('Creates Stock Folder')
+        StockFolder(path = ROOT_DIR + '/' + week + '/Stock', week = week, orgFile = orgFile, tvcNo = tvcNo, shippingNo = shippingNo)
 
     # Create Magento Template Files
-    def magentoFolder(self, week:str, orgFile:str, tvcNo:str) -> str:
+    def magentoFolder(self, week:str, orgFile:str, tvcNo:str) -> None:
         print('Creates Magento folder...')
-        magentoFolder = MagentoBaseFolderFile(path = ROOT_DIR + '/' + week + '/Magento', week = week, orgFile = orgFile, tvcNo = tvcNo)
-        basePath = magentoFolder.createBaseFolder()
-        return basePath
-
+        MagentoBaseFolderFile(path = ROOT_DIR + '/' + week + '/Magento', week = week, orgFile = orgFile, tvcNo = tvcNo)
+                
     # Create Shopify Template Files    
-    def shopifyFolder(self, week:str) -> str:
+    def shopifyFolder(self, week:str) -> None:
         print('Creates Shopify folder...')        
-        shopifyFolder = ShopifyBaseFolderFile(path = ROOT_DIR + '/' + week + '/Shopify', week = week)        
-        basePath = shopifyFolder.createBaseFolder()
-        return basePath
+        ShopifyBaseFolderFile(path = ROOT_DIR + '/' + week + '/Shopify', week = week)
 
     # Move the folder to Import Products/Week Lists
     def moveParentFolder(self, week:str) -> None:

@@ -10,12 +10,12 @@ from config.definitions import WEEKLIST_DIR
 
 class Main:
 	def __init__(self):
-		whatToDo = self.whatToDo()		
+		whatToDo = self.whatToDo()
 		# whatToDo = '6'		
 
 		# Which method to run depending on 
 		if whatToDo == '1':
-			self.createTheFolder()			
+			self.createTheFolder()
 
 		elif whatToDo == '2':
 			self.prepareForEAN()
@@ -41,10 +41,10 @@ class Main:
 	def whatToDo(self):
 		userInput = input('What do you want to do? \n 1: Create a new Folder? (SKU\'s is done.) \n 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC) \n 3: Update Stock and send to Pavo and Friends? (List is back from TVC) \n 4: Update location and QTY (List is back from WePack) \n 5: Create Additional image list \n 6: List is ready to import! \n 9: Open a Week Folder? \n')
 		return userInput
-
+		
 	# 1: Create a new Folder? (SKU\'s is done.)
 	def createTheFolder(self):				
-		CreateBasicFolder(week=True, tvc=True, file_id=True)
+		CreateBasicFolder(week=True, tvc=True, file_id=True, add_img=False, shippingNo=True)
 		print('Done. Now you\'re ready to prepare and upload TVC to Drive (Step 2).')
 
 	# 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC)
@@ -54,7 +54,7 @@ class Main:
 	
 	# 3: Update Stock and send to Pavo and Friends? (List is back from TVC)
 	def createChecklistToWePack(self):
-		CreateChecklist(week=True, tvc=True, file_id=True)
+		CreateChecklist(week=True, tvc=True, file_id=True, add_img=False, shippingNo=True)
 		print('Take info from the newly downloaded original file. Update stock from the mail sent by TVC')
 
 	# 4: Update location and QTY (List is back from WePack)
@@ -68,7 +68,7 @@ class Main:
 	
 	# 6: Get list ready for import
 	def readyToImport(self):
-		ReadyToImport(week=True, tvc=False, file_id=True)
+		ReadyToImport(week=True, tvc=False, file_id=True, shippingNo=False)
 		print('Done. Remember to doublecheck the list. Is pricing correct? Is images in correct order? And then it\'s ready to import!')
 	
 	# 9: Open a Week Folder?
