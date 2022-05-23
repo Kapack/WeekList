@@ -1,7 +1,7 @@
 from config.const import ROOT_DIR, WEEKLIST_DIR
 from lib.Shared import Shared
 from lib.CreateFiles.CreateXlsx import CreateXlsx
-
+from lib.ReadFiles.ReadOds import ReadOds
 from pandas_ods_reader import read_ods
 
 class AdditionalImage:    
@@ -27,12 +27,9 @@ class AdditionalImage:
         return filepath
     
     def readOds(self, filepath:str) -> dict:
-        base_path = filepath
-        sheet_index = 1
-        # Reading ods
-        dataFrame = read_ods(base_path , sheet_index)
-        # convert to dict
-        dataDict = dataFrame.to_dict()
+        readOds = ReadOds()
+        dataDict = readOds.valuesToDict(filepath = filepath, sheet_index=1)
+
         # remove info we don\'t need
         remove_keys = ['##CPI', 'disabled']
         for key in remove_keys:
