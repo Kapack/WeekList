@@ -1,5 +1,5 @@
 import xlwt
-from config.definitions import ROOT_DIR, ONGOING_FIELDNAMES
+from config.const import ROOT_DIR, ONGOING_FIELDNAMES
 
 class Ongoing:
     

@@ -1,11 +1,6 @@
 from lib.CreatePrice.CreatePrice import CreatePrice
-
-from config.definitions import ROOT_DIR, STRUCT_FIELDNAMES
-#
+from config.const import ROOT_DIR, STRUCT_FIELDNAMES, STRUCT_ADMIN_FILE
 import xlsxwriter
-import xlwt
-import pandas as pd
-from subprocess import call
 
 class Struct:
 
@@ -18,7 +13,7 @@ class Struct:
     def createAdminFromDict(self, adminValues:dict, week:str) -> str:
 
         # Save workboook as
-        filename = week + '-Admin-Struct-Upload.xlsx'
+        filename = week + STRUCT_ADMIN_FILE
         filepath = ROOT_DIR + '/' + week + '/' + filename
 
         # Create a workbook and add a worksheet.

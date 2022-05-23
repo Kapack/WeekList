@@ -10,7 +10,7 @@ import io
 from googleapiclient.http import MediaIoBaseDownload
 
 # os
-from config.definitions import ROOT_DIR
+from config.const import ROOT_DIR
 import os.path
 import webbrowser
 

@@ -1,4 +1,4 @@
-from config.definitions import ROOT_DIR, WEEKLIST_DIR
+from config.const import ROOT_DIR, WEEKLIST_DIR
 from lib.Shared import Shared
 from lib.CreateFiles.CreateXlsx import CreateXlsx
 

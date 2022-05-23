@@ -1,6 +1,6 @@
 from lib.CreateBasicFolder.CreateFolder import CreateFolder
 from lib.CreateFiles.CreateXlsx import CreateXlsx
-from config.definitions import STRUCT_FIELDNAMES
+from config.const import STRUCT_FIELDNAMES, STRUCT_ADMIN_FILE
 
 class ShopifyBaseFolderFile:
     def __init__(self, path:str, week:str):
@@ -27,7 +27,7 @@ class ShopifyBaseFolderFile:
     
     def createAdminFile(self, path:str, week:str) -> None:
         createXlsx = CreateXlsx()
-        filename = week + '-Struct-Admin.xlsx'        
+        filename = week + STRUCT_ADMIN_FILE        
         fieldnames = STRUCT_FIELDNAMES
         # Creates the xlsx file
         createXlsx.templateFile(path = path + filename, fieldnames = fieldnames)
@@ -40,7 +40,7 @@ class ShopifyBaseFolderFile:
     def createTranslationFile(self, path:str, week:str) -> None:
         createXlsx = CreateXlsx()
         filename = week + '-Translation.xlsx'        
-        fieldnames = ['SKU', 'Name (en-GB)', 'Description (en-GB)', 'Name (da-DK)', 'Description (da-DK)', 'Name (sv-SE)', 'Description (sv-SE)',	'Name (nb-NO)', 'Description (nb-NO)', 'Name (fi-FI)', 'Description (fi-FI)', 'Name (nl-NL)', 'Description (nl-NL)', 'Name (de-DE)', 'Description (de-DE)']                
+        fieldnames = ['SKU', 'Name (en-GB)', 'Description (en-GB)', 'Name (da-DK)', 'Description (da-DK)', 'Name (sv-SE)', 'Description (sv-SE)', 'Name (nb-NO)', 'Description (nb-NO)', 'Name (fi-FI)', 'Description (fi-FI)', 'Name (nl-NL)', 'Description (nl-NL)', 'Name (de-DE)', 'Description (de-DE)']                
         createXlsx.templateFile(path = path + filename, fieldnames = fieldnames)
 
     def createImgFolder(self, path:str) -> str:

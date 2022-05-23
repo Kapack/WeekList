@@ -4,7 +4,7 @@ from lib.CreateBasicFolder.Magento.MagentoBaseFolderFile import MagentoBaseFolde
 from lib.CreateBasicFolder.Shopify.ShopifyBaseFolderFile import ShopifyBaseFolderFile
 from lib.Drive.GoogleDrive import GoogleDrive
 from lib.Shared import Shared
-from config.definitions import ROOT_DIR, WEEKLIST_DIR
+from config.const import ROOT_DIR, WEEKLIST_DIR
 # import os
 import shutil
 

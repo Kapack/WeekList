@@ -2,12 +2,8 @@ from lib.Shared import Shared
 from lib.ReadFiles.ReadXls import ReadXls
 from lib.Import.Shopify.Struct import Struct
 from lib.Import.Shopify.Ongoing import Ongoing
-
-from config.definitions import ROOT_DIR, WEEKLIST_DIR
-#
-# import xlwt
+from config.const import ROOT_DIR, WEEKLIST_DIR
 import shutil
-# from subprocess import call
 
 class ReadyToImport:
     def __init__(self, week:bool, tvc:bool, file_id:bool, shippingNo:bool):
@@ -66,7 +62,7 @@ class ReadyToImport:
         for filename in filenames:
             # paths
             currentPath = ROOT_DIR + '/' + week + '/' + filename
-            newPath = WEEKLIST_DIR + week + '/Shopify/' + filename
+            newPath = WEEKLIST_DIR + week + '/Shopify/Admin/' + filename
             # Move files
             shutil.move(currentPath, newPath)        
         # remove devFolder

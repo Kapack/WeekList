@@ -6,13 +6,11 @@ from lib.Wepack.UpdateLocationQty import UpdateLocationQty
 from lib.Import.ReadyToImport import ReadyToImport
 from lib.CreateImage.AdditionalImage import AdditionalImage
 from lib.Shared import Shared
-from config.definitions import WEEKLIST_DIR
+from config.const import WEEKLIST_DIR
 
 class Main:
 	def __init__(self):
-		whatToDo = self.whatToDo()
-		# whatToDo = '6'		
-
+		whatToDo = self.whatToDo()	
 		# Which method to run depending on 
 		if whatToDo == '1':
 			self.createTheFolder()

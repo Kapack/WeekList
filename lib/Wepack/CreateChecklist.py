@@ -2,8 +2,8 @@ from subprocess import call
 
 from lib.Shared import Shared
 from lib.Drive.GoogleDrive import GoogleDrive
-from lib.ReadFiles.ReadXls import ReadXls
-from config.definitions import ROOT_DIR, WEEKLIST_DIR
+# from lib.ReadFiles.ReadXls import ReadXls
+from config.const import ROOT_DIR, WEEKLIST_DIR
 
 class CreateChecklist:
     def __init__(self, week:bool, tvc:bool, file_id:bool, add_img:bool, shippingNo:bool):        

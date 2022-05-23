@@ -3,7 +3,7 @@ from lib.Drive.GoogleDrive import GoogleDrive
 # from lib.CreateBasicFolder.CreateFiles.CreateXlsx import CreateXlsx
 # from lib.CreateBasicFolder.CreateFolder import CreateFolder
 
-from config.definitions import ROOT_DIR
+from config.const import ROOT_DIR
 
 import webbrowser
 import shutil
