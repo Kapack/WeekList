@@ -1,5 +1,5 @@
 from lib.Drive.GoogleDrive import GoogleDrive
-from config.const import ROOT_DIR
+from config.const import ROOT_DIR, WEEKLIST_DIR
 import webbrowser
 import shutil
 from subprocess import call
@@ -66,6 +66,15 @@ class Shared:
         shutil.rmtree(ROOT_DIR + '/' + week)
         return newPath
     
+    def moveFileList(self, filepaths:list, week:str):
+        for filepath in filepaths:
+            currentPath = ROOT_DIR + '/' + week + '/' + filepath
+            newPath = WEEKLIST_DIR + week + filepath
+            # Move files
+            shutil.move(currentPath, newPath)        
+        # remove devFolder
+        shutil.rmtree(ROOT_DIR + '/' + week)
+
     # Open folder in Finder
     def openFolder(self, targetDirectory:str):        
         targetDirectory = targetDirectory

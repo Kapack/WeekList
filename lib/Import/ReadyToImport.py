@@ -13,17 +13,17 @@ class ReadyToImport:
         orgValues = self.createAdminDictFromDrive(orgFilepath = orgFile)    
         
         # A list of file names we will move later into weekList folder        
-        filenames = []
+        filepaths = []
         # Magento                
         magentoFiles = self.createMagentoImport(rows = orgValues.copy(), week=userInput[0])
         for magentoFile in magentoFiles:
-            filenames.append(magentoFile)
+            filepaths.append(magentoFile)
         # Struct
-        filenames.append(self.createStructImport(orgValues = orgValues, week = userInput[0]))    
+        filepaths.append(self.createStructImport(orgValues = orgValues, week = userInput[0]))    
         # # Ongoing
         # filenames.append(self.createOngoingImport(orgValues = orgValues, week = userInput[0]))
         # Move Files
-        self.moveFile(week = userInput[0], filenames = filenames)
+        self.moveFile(week = userInput[0], filepaths = filepaths)
         self.openFolder(week = userInput[0])
 
     # For users input
@@ -37,9 +37,7 @@ class ReadyToImport:
         # download the file from Google Drive
         shared = Shared()
         filename = shared.downloadListFromDrive(week = week, file_id = file_id)
-        # filename = '354-LIST-V04.xls'
-        filepath = ROOT_DIR + '/' + week + '/' + filename
-        #
+        filepath = ROOT_DIR + '/' + week + '/' + filename        
         return filepath
 
     def createAdminDictFromDrive(self, orgFilepath:str) -> dict:
@@ -75,15 +73,9 @@ class ReadyToImport:
         return filename
 
     # Moves a week folder from this folder, to local week list folder
-    def moveFile(self, week:str, filenames:list):             
-        for filename in filenames:
-            # paths
-            currentPath = ROOT_DIR + '/' + week + '/' + filename
-            newPath = WEEKLIST_DIR + week + filename
-            # Move files
-            shutil.move(currentPath, newPath)        
-        # remove devFolder
-        shutil.rmtree(ROOT_DIR + '/' + week)
+    def moveFile(self, week:str, filepaths:list):             
+        shared = Shared()
+        shared.moveFileList(filepaths = filepaths, week = week)
 
     # Open folder in Finder
     def openFolder(self, week:str):        

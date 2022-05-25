@@ -1,16 +1,21 @@
 from config.const import ROOT_DIR, WEEKLIST_DIR
 from lib.Shared import Shared
-from lib.CreateFiles.CreateXlsx import CreateXlsx
 from lib.ReadFiles.ReadOds import ReadOds
+from lib.CreateImage.Magento.Magento import Magento
+from lib.CreateImage.Shopify.Shopify import Shopify
+
 
 class AdditionalImage:    
     def __init__(self, week:bool, tvc:bool, file_id:bool, add_img:bool):            
         userInput = self.userInput(week, tvc, file_id, add_img)      
         filepath = self.downloadListFromDrive(week = userInput[0], add_img = userInput[1])
         dataDict = self.readOds(filepath = filepath)
-        images = self.consolidateField(dataDict = dataDict)
-        filename = self.createXls(values = images, week = userInput[0])        
-        self.moveFile(filename = filename, week = userInput[0])
+
+        filepaths = []
+        filepaths.append(self.createMagentoFile(dataDict=dataDict, week = userInput[0]))
+        filepaths.append(self.createShopifyFile(dataDict=dataDict, week = userInput[0]))
+   
+        self.moveFile(filepaths = filepaths, week = userInput[0])
         self.openFolder(week = userInput[0])
 
     # For users input
@@ -23,6 +28,7 @@ class AdditionalImage:
         shared = Shared()
         filename = shared.downloadListFromDrive(week = week, file_id = add_img)        
         filepath = ROOT_DIR + '/' + week + '/' + filename
+        # filepath = ROOT_DIR + '/' + week + '/' + 'ADDITIONAL_week_import_list-354.ods'
         return filepath
     
     def readOds(self, filepath:str) -> dict:
@@ -32,50 +38,23 @@ class AdditionalImage:
         # remove info we don\'t need
         remove_keys = ['##CPI', 'disabled']
         for key in remove_keys:
-            dataDict.pop(key)
-        
+            dataDict.pop(key)        
         return dataDict
     
-    def consolidateField(self, dataDict:dict) -> dict:
-        # Creating a list with all the skus
-        skus = []        
-        for headers in dataDict:
-            if headers.lower() == 'sku':
-                for sku in dataDict[headers]:
-                    skus.append(dataDict[headers][sku])                    
-        
-        # Removing duplicates from skus[], and make them to dict keys
-        images = dict.fromkeys(skus)
-        # Giving a list as value
-        for sku in images:
-            images[sku] = list()
-
-        # Appending Images
-        for headers in dataDict:
-            if headers.lower() == 'image_url':
-                # Looping trough each image_url
-                for image in dataDict[headers]:
-                    # looping through each sku
-                    for sku in images.keys():
-                        # image_url without -X.jpg. If that matches sku
-                        if dataDict[headers][image].rsplit('-', 1)[0] == sku:
-                            # Append to dict
-                            images[sku].append(dataDict[headers][image])
-        # Return
-        return images
-
-    def createXls(self, values:dict, week:str) -> str:
-        filename = week + '-Gallery.xlsx'         
-        filepath = ROOT_DIR + '/' + week + '/' + filename
-        create = CreateXlsx()
-        create.createAdditionalImages(filepath = filepath, fieldnames = ['SKU', 'Gallery'], values = values)
-        return filename
+    def createMagentoFile(self, dataDict:dict, week:str) -> str:
+        magento = Magento()
+        filepath = magento.createAdditionalImageFile(dataDict = dataDict, week = week)
+        return filepath
     
-    def moveFile(self, filename:str, week:str) -> None:
+    def createShopifyFile(self, dataDict:dict, week:str) -> str:
+        shopify = Shopify()
+        images = shopify.consolidateField(dataDict = dataDict)
+        filepath = shopify.createXls(values = images, week = week)
+        return filepath     
+    
+    def moveFile(self, filepaths:list, week:str) -> None:
         shared = Shared()
-        currentPath = ROOT_DIR + '/' + week + '/' + filename        
-        newPath = WEEKLIST_DIR + week + '/Shopify/Img/' + filename    
-        shared.moveFile(week = week, currentPath = currentPath, newPath = newPath)
+        shared.moveFileList(filepaths = filepaths, week = week)
     
     # Open folder in Finder
     def openFolder(self, week:str) -> None:        
