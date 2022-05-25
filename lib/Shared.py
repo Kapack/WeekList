@@ -1,10 +1,5 @@
 from lib.Drive.GoogleDrive import GoogleDrive
-# from lib.ReadFiles.ReadXls import ReadXls
-# from lib.CreateBasicFolder.CreateFiles.CreateXlsx import CreateXlsx
-# from lib.CreateBasicFolder.CreateFolder import CreateFolder
-
 from config.const import ROOT_DIR
-
 import webbrowser
 import shutil
 from subprocess import call
@@ -35,7 +30,7 @@ class Shared:
         
 
         # TESTING FILES    
-        # userInput.append('302')
+        # userInput.append('900')
         # userInput.append('E21050300001')        
         # userInput.append('1Kolw1q-mCAGzXv_92v0xgKc8cAsnpPiO')
         # userInput.append('1WWT3M6B-CFi5JI3otIOwD5KhZGW2Z1bB')

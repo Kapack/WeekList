@@ -2,7 +2,6 @@ from config.const import ROOT_DIR, WEEKLIST_DIR
 from lib.Shared import Shared
 from lib.CreateFiles.CreateXlsx import CreateXlsx
 from lib.ReadFiles.ReadOds import ReadOds
-from pandas_ods_reader import read_ods
 
 class AdditionalImage:    
     def __init__(self, week:bool, tvc:bool, file_id:bool, add_img:bool):            

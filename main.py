@@ -5,8 +5,8 @@ from lib.Wepack.CreateChecklist import CreateChecklist
 from lib.Wepack.UpdateLocationQty import UpdateLocationQty
 from lib.Import.ReadyToImport import ReadyToImport
 from lib.CreateImage.AdditionalImage import AdditionalImage
-from lib.Shared import Shared
-from config.const import WEEKLIST_DIR
+import pandas as pd
+
 
 class Main:
 	def __init__(self):
@@ -31,13 +31,13 @@ class Main:
 			self.readyToImport()
 		
 		elif whatToDo == '9':
-			self.openWeekListFolder()
+			self.testFunction()
 
 		else:
 			print('Your choice is not valid')
 	# 0
 	def whatToDo(self):
-		userInput = input('What do you want to do? \n 1: Create a new Folder? (SKU\'s is done.) \n 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC) \n 3: Update Stock and send to Pavo and Friends? (List is back from TVC) \n 4: Update location and QTY (List is back from WePack) \n 5: Create Additional image list \n 6: List is ready to import! \n 9: Open a Week Folder? \n')
+		userInput = input('What do you want to do? \n 1: Create a new Folder? (SKU\'s is done.) \n 2: Prepare for EAN and upload TVC-list to Drive? (SKU\'s done. Upload EAN to TVC) \n 3: Update Stock and send to Pavo and Friends? (List is back from TVC) \n 4: Update location and QTY (List is back from WePack) \n 5: Create Additional image list \n 6: List is ready to import! \n 9: Test Function? \n Pick an option: ')
 		return userInput
 		
 	# 1: Create a new Folder? (SKU\'s is done.)
@@ -70,11 +70,9 @@ class Main:
 		print('Done. Remember to doublecheck the list. Is pricing correct? Is images in correct order? And then it\'s ready to import!')
 	
 	# 9: Open a Week Folder?
-	def openWeekListFolder(self):
-		shared = Shared()
-		userInput = shared.userInput(week=True)
-		weekNumber = userInput[0]
-		shared.openFolder(targetDirectory = WEEKLIST_DIR + weekNumber)
+	def testFunction(self) -> None:
+		pass
+		
 	
 if __name__ == '__main__':
 	Main()

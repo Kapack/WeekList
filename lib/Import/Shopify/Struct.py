@@ -1,6 +1,8 @@
+import os
+import xlsxwriter
+
 from lib.CreatePrice.CreatePrice import CreatePrice
 from config.const import ROOT_DIR, STRUCT_FIELDNAMES, STRUCT_ADMIN_FILE
-import xlsxwriter
 
 class Struct:
 
@@ -9,12 +11,14 @@ class Struct:
         adminValues = createPrice.prices(adminValues = adminValues)
         return adminValues
     
-    # 
     def createAdminFromDict(self, adminValues:dict, week:str) -> str:
-
         # Save workboook as
         filename = week + STRUCT_ADMIN_FILE
-        filepath = ROOT_DIR + '/' + week + '/' + filename
+        path = ROOT_DIR + '/' + week + '/Shopify/'
+        filepath = ROOT_DIR + '/' + week + '/Shopify/' + filename
+
+        if not os.path.exists(path):
+            os.makedirs(path)
 
         # Create a workbook and add a worksheet.
         workbook = xlsxwriter.Workbook(filepath)
@@ -62,4 +66,4 @@ class Struct:
         workbook.close()
 
         # return filename
-        return filename
+        return '/Shopify/' + filename

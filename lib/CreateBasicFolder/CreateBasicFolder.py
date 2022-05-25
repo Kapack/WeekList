@@ -5,7 +5,6 @@ from lib.CreateBasicFolder.Shopify.ShopifyBaseFolderFile import ShopifyBaseFolde
 from lib.Drive.GoogleDrive import GoogleDrive
 from lib.Shared import Shared
 from config.const import ROOT_DIR, WEEKLIST_DIR
-# import os
 import shutil
 
 class CreateBasicFolder:
@@ -53,9 +52,8 @@ class CreateBasicFolder:
         # Download the file
         orgFile = googleDrive.downloadFile(serviceToken, week, file_id)        
         filepath = ROOT_DIR + '/' + week + '/' + orgFile
-        
-        # filepath = ROOT_DIR + '/' + week + '/368-LIST-V03_Skus_Tested.xls'
-
+        # TESTING 
+        # filepath = ROOT_DIR + '/900/364-LIST-V05.xls'
         return filepath
     
     # Creates stock folders (TVC and WePack)
