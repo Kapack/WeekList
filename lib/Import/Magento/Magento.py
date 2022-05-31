@@ -1,19 +1,17 @@
+from lib.Shared import Shared
 from lib.CreateBasicFolder.CreateFiles.CreateCsv import CreateCsv
 from config.const import ROOT_DIR, MAG_ADMIN_DIR
 from datetime import date
 
 class Magento:
     def __init__(self, week:str):
+        self.shared = Shared()
         self.path = ROOT_DIR + '/' + week + MAG_ADMIN_DIR
 
     def createAdminFile(self, rows:dict, week:str) -> str:           
         # remove info we don\'t need
-        remove_keys = ['Image', 'Cost', 'Material', 'manufacturer', 'Category Id', 'model', 'device_name']        
-        for key in remove_keys: 
-            try:
-                rows.pop(key)
-            except Exception as e:
-                print('createAdminFile Exception: ' + e)
+        remove_keys = ['Image', 'Cost', 'Material', 'manufacturer', 'Category Id', 'model', 'device_name']                
+        rows = self.shared.rmKeyFromDict(remove_keys = remove_keys, orgDict = rows)
         
         # Rename keys
         rows['price'] = rows.pop('Price')
@@ -46,11 +44,7 @@ class Magento:
     def createAttrFile(self, rows:dict, week:str) -> str:                
         # remove info we don\'t need
         remove_keys = ['P/N', 'name', 'Image', 'ean', 'device_name', 'Category Id', 'Description', 'Material', 'Price', 'Cost', 'Q\'ty', 'image', 'small_image', 'thumbnail'] 
-        for key in remove_keys:
-            try:
-                rows.pop(key)
-            except Exception as e:
-                print('createAttrFile Exception: ' + e)
+        rows = self.shared.rmKeyFromDict(remove_keys = remove_keys, orgDict = rows)
         
         # Adding Key
         rows['product_type'] = 'simple'
@@ -60,14 +54,9 @@ class Magento:
         return MAG_ADMIN_DIR + filename
 
     def createCatLocFile(self, rows:dict, week:str) -> str:                
-        # [sku, categories, location, product_type]
+        # remove info we don\'t need
         remove_keys = remove_keys = ['P/N', 'name', 'manufacturer', 'model', 'Image', 'ean', 'device_name', 'Description', 'Material', 'Price', 'Cost', 'Q\'ty', 'image', 'small_image', 'thumbnail'] 
-        for key in remove_keys:
-            try:
-                rows.pop(key)
-            except Exception as e:
-                print('createAttrFile Exception: ' + e)
-
+        rows = self.shared.rmKeyFromDict(remove_keys = remove_keys, orgDict = rows)
 
         # Rename keys
         rows['categories'] = rows.pop('Category Id')

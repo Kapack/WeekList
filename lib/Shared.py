@@ -75,6 +75,14 @@ class Shared:
         # remove devFolder
         shutil.rmtree(ROOT_DIR + '/' + week)
 
+    def rmKeyFromDict(self, remove_keys:list, orgDict:dict) -> dict:        
+        # remove_keys = ['Image', 'Cost', 'Material', 'manufacturer', 'Category Id', 'model', 'device_name']
+        for key in remove_keys: 
+            if key in orgDict:
+                orgDict.pop(key)
+
+        return orgDict 
+
     # Open folder in Finder
     def openFolder(self, targetDirectory:str):        
         targetDirectory = targetDirectory
